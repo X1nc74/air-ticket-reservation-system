@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Ticket</title>
+</head>
+<body>
+    <h1>Purchase Ticket</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    {% if flight %}
+        <h3>Flight information</h3>
+        <p>
+            Airline: {{ flight.airline_name }}<br>
+            Flight #: {{ flight.flight_num }}<br>
+            From {{ flight.departure_airport }} at {{ flight.departure_time }}<br>
+            To {{ flight.arrival_airport }} at {{ flight.arrival_time }}<br>
+        </p>
+
+        {% if seat_options %}
+            <h3>Available seat classes</h3>
+            <form method="POST" action="/customer/purchase/{{ flight.flight_id }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <table border="1" cellpadding="5">
+                    <tr>
+                        <th>Class</th>
+                        <th>Capacity</th>
+                        <th>Sold</th>
+                        <th>Remaining</th>
+                        <th>Base price</th>
+                        <th>Select</th>
+                    </tr>
+                    {% for s in seat_options %}
+                    <tr>
+                        <td>{{ s.class_code }}</td>
+                        <td>{{ s.capacity }}</td>
+                        <td>{{ s.sold }}</td>
+                        <td>{{ s.remaining }}</td>
+                        <td>{{ s.base_price }}</td>
+                        <td>
+                            {% if s.remaining > 0 %}
+                                <input type="radio" name="class_code" value="{{ s.class_code }}" required>
+                            {% else %}
+                                Sold out
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <br>
+                <input type="submit" value="Confirm purchase">
+            </form>
+        {% else %}
+            <p>No seat classes available for this flight.</p>
+        {% endif %}
+    {% else %}
+        <p>Flight not found.</p>
+    {% endif %}
+
+    <p><a href="/customer/home">Back to customer home</a></p>
+</body>
+</html>

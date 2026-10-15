@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Associate Booking Agents</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Associate Booking Agents with {{ airline_name }}</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    <p>
+        This page lets an <strong>admin</strong> staff member associate booking
+        agents with <strong>{{ airline_name }}</strong>. Once associated, those
+        agents will be allowed to book tickets for this airline.
+    </p>
+    
+    
+
+    <h3>Add / associate a booking agent</h3>
+
+    {% if all_agents|length == 0 %}
+        <p>No booking agents found in the system.</p>
+    {% else %}
+        <form method="POST" action="/staff/assign_agent">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>
+                Booking agent email:
+                <select name="agent_email" required>
+                    <option value="">-- select agent --</option>
+                    {% for a in all_agents %}
+                        <option value="{{ a.email }}">
+                            {{ a.email }} (ID {{ a.agent_id }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <br><br>
+            <input type="submit" value="Associate with {{ airline_name }}">
+        </form>
+    {% endif %}
+
+    <h3>Currently associated agents for {{ airline_name }}</h3>
+    {% if current_agents|length == 0 %}
+        <p>No booking agents are currently associated with this airline.</p>
+    {% else %}
+        <table>
+            <tr>
+                <th>Agent email</th>
+                <th>Agent ID</th>
+            </tr>
+            {% for a in current_agents %}
+            <tr>
+                <td>{{ a.email }}</td>
+                <td>{{ a.agent_id }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

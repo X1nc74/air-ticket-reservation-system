@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Flights</title>
+</head>
+<body>
+    <h1>Manage Flights for {{ airline_name }}</h1>
+
+    <p>
+        Logged in as {{ username }} (permission: {{ permission_type }})
+    </p>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    <p>
+        Default view shows all flights of this airline in the
+        <strong>next 30 days</strong>.<br>
+        Use the filters below to adjust the date range or routes.
+    </p>
+
+    <h3>Filter flights</h3>
+    <form method="GET" action="/staff/flights">
+        <label>
+            Start date:
+            <input type="date" name="start_date" value="{{ filter_start_date }}">
+        </label>
+        <br>
+
+        <label>
+            End date:
+            <input type="date" name="end_date" value="{{ filter_end_date }}">
+        </label>
+        <br>
+
+        <label>
+            Departure airport (3-letter code):
+            <input type="text" name="departure_airport" maxlength="3"
+                   value="{{ filter_dep_airport }}">
+        </label>
+        <br>
+
+        <label>
+            Arrival airport (3-letter code):
+            <input type="text" name="arrival_airport" maxlength="3"
+                   value="{{ filter_arr_airport }}">
+        </label>
+        <br><br>
+
+        <input type="submit" value="Apply filters">
+        <a href="/staff/flights">Clear</a>
+    </form>
+
+    <hr>
+
+    <p>
+        Below are flights matching the current filter.
+        Staff with permission <strong>admin</strong> or <strong>operator</strong>
+        can update the status of a flight.
+    </p>
+
+    {% if flights|length == 0 %}
+        <p>No flights found for this airline with the selected filters.</p>
+    {% else %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Flight ID</th>
+                <th>Flight #</th>
+                <th>Departure</th>
+                <th>Departure time</th>
+                <th>Arrival</th>
+                <th>Arrival time</th>
+                <th>Current status</th>
+                <th>Update status</th>
+            </tr>
+            {% for f in flights %}
+            <tr>
+                <td>{{ f.flight_id }}</td>
+                <td>{{ f.flight_num }}</td>
+                <td>{{ f.departure_airport }}</td>
+                <td>{{ f.departure_time }}</td>
+                <td>{{ f.arrival_airport }}</td>
+                <td>{{ f.arrival_time }}</td>
+                <td>{{ f.status }}</td>
+                <td>
+                    {% if can_update %}
+                        <form method="POST" action="/staff/flights" style="margin:0;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="flight_id" value="{{ f.flight_id }}">
+                            <select name="new_status">
+                                <option value="upcoming" {% if f.status == 'upcoming' %}selected{% endif %}>upcoming</option>
+                                <option value="delayed" {% if f.status == 'delayed' %}selected{% endif %}>delayed</option>
+                                <option value="in-progress" {% if f.status == 'in-progress' %}selected{% endif %}>in-progress</option>
+                                <option value="completed" {% if f.status == 'completed' %}selected{% endif %}>completed</option>
+                                <option value="cancelled" {% if f.status == 'cancelled' %}selected{% endif %}>cancelled</option>
+                            </select>
+                            <input type="submit" value="Update">
+                        </form>
+                    {% else %}
+                        (no permission to update)
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

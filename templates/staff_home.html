@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Airline Staff Home</title>
+</head>
+<body>
+    <h1>Airline Staff Home</h1>
+
+    <p>
+        Welcome, {{ username }} ({{ airline_name }})<br>
+        Permission: <strong>{{ permission_type }}</strong>
+    </p>
+
+    <h3>Available actions:</h3>
+    <ul>
+        <li><a href="/staff/flights">View flights and update status</a></li>
+        <li><a href="/staff/create_airport">Create airport (admin only)</a></li>
+        <li><a href="/staff/create_airplane">Create airplane (admin only)</a></li>
+        <li><a href="/staff/create_flight">Create flight (admin only)</a></li>
+        <li><a href="/staff/assign_agent">Associate booking agents with my airline (admin only)</a></li>
+        <li><a href="/staff/passengers">View passenger list for a flight</a></li>
+        <li><a href="/staff/customer_flights">View all flights for a specific customer</a></li>
+        <li><a href="/staff/analytics">View analytics (top agents, frequent customers, popular destinations)</a></li>
+    </ul>
+
+    <p><form method="POST" action="{{ url_for('logout') }}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Logout</button></form></p>
+</body>
+</html>

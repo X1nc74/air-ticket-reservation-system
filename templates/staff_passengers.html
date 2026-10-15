@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Passenger List</h1>
+
+    <p>
+        Airline: <strong>{{ airline_name }}</strong><br>
+        Staff: {{ username }} (permission: {{ permission_type }})
+    </p>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <h3>Select a flight</h3>
+    {% if flights|length == 0 %}
+        <p>No flights found for this airline.</p>
+    {% else %}
+        <form method="POST" action="/staff/passengers">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>
+                Flight:
+                <select name="flight_id" required>
+                    <option value="">-- select flight --</option>
+                    {% for f in flights %}
+                        <option value="{{ f.flight_id }}"
+                            {% if selected_flight_id == f.flight_id %}selected{% endif %}>
+                            ID {{ f.flight_id }} - {{ f.flight_num }}
+                            ({{ f.departure_airport }} → {{ f.arrival_airport }},
+                             {{ f.departure_time }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <br><br>
+            <input type="submit" value="Show passengers">
+        </form>
+    {% endif %}
+
+    {% if selected_flight %}
+        <h3>Flight information</h3>
+        <p>
+            Flight ID: {{ selected_flight.flight_id }}<br>
+            Flight #: {{ selected_flight.flight_num }}<br>
+            From {{ selected_flight.departure_airport }} at {{ selected_flight.departure_time }}<br>
+            To {{ selected_flight.arrival_airport }} at {{ selected_flight.arrival_time }}<br>
+            Status: {{ selected_flight.status }}
+        </p>
+
+        <h3>Passenger list</h3>
+        {% if passengers|length == 0 %}
+            <p>No tickets sold for this flight.</p>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Customer name</th>
+                    <th>Customer email</th>
+                    <th>Class</th>
+                    <th>Purchased via</th>
+                    <th>Purchase date</th>
+                    <th>Sold price</th>
+                </tr>
+                {% for p in passengers %}
+                <tr>
+                    <td>{{ p.ticket_id }}</td>
+                    <td>{{ p.customer_name }}</td>
+                    <td>{{ p.customer_email }}</td>
+                    <td>{{ p.class_code }}</td>
+                    <td>
+                        {% if p.agent_email %}
+                            Agent ({{ p.agent_email }})
+                        {% else %}
+                            Direct
+                        {% endif %}
+                    </td>
+                    <td>{{ p.purchase_date }}</td>
+                    <td>{{ p.sold_price }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

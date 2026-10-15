@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Public Flight Search</title>
+</head>
+<body>
+    <h1>Search Upcoming Flights</h1>
+
+    <p>
+        You can search by <strong>city</strong> (e.g. "New York") or by
+        <strong>airport code</strong> (e.g. "JFK").
+    </p>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="/search">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>
+            From (city or airport code):
+            <input type="text" name="from_place" required>
+        </label>
+        <br>
+
+        <label>
+            To (city or airport code):
+            <input type="text" name="to_place" required>
+        </label>
+        <br>
+
+        <label>
+            Departure date:
+            <input type="date" name="departure_date" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Search">
+    </form>
+
+    {% if flights is defined %}
+        <h2>Search Results</h2>
+        {% if flights|length == 0 %}
+            <p>No matching upcoming flights found.</p>
+        {% else %}
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>Airline</th>
+                    <th>Flight #</th>
+                    <th>From</th>
+                    <th>Departure time</th>
+                    <th>To</th>
+                    <th>Arrival time</th>
+                    <th>Base price</th>
+                    <th>Status</th>
+                </tr>
+                {% for f in flights %}
+                <tr>
+                    <td>{{ f.airline_name }}</td>
+                    <td>{{ f.flight_num }}</td>
+                    <td>{{ f.departure_airport }} ({{ f.dep_city }})</td>
+                    <td>{{ f.departure_time }}</td>
+                    <td>{{ f.arrival_airport }} ({{ f.arr_city }})</td>
+                    <td>{{ f.arrival_time }}</td>
+                    <td>{{ f.base_price }}</td>
+                    <td>{{ f.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+
+    <p><a href="/">Back to home</a></p>
+</body>
+</html>

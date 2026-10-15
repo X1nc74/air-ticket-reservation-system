@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Flight</title>
+</head>
+<body>
+    <h1>Create a New Flight</h1>
+
+    <p>Airline: <strong>{{ airline_name }}</strong></p>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    {% if airplanes|length == 0 %}
+        <p>You do not have any airplanes yet. Please create an airplane first.</p>
+        <p><a href="/staff/create_airplane">Create airplane</a></p>
+    {% elif airports|length < 2 %}
+        <p>You need at least two airports to create a flight.</p>
+        <p><a href="/staff/create_airport">Create airport</a></p>
+    {% else %}
+        <form method="POST" action="/staff/create_flight">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>
+                Flight number (e.g. CA123):
+                <input type="text" name="flight_num" required>
+            </label>
+            <br>
+
+            <label>
+                Airplane:
+                <select name="airplane_id" required>
+                    {% for plane in airplanes %}
+                        <option value="{{ plane.airplane_id }}">
+                            ID {{ plane.airplane_id }} - {{ plane.model }} ({{ plane.total_seats }} seats)
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <br>
+
+            <label>
+                Departure airport:
+                <select name="departure_airport" required>
+                    {% for ap in airports %}
+                        <option value="{{ ap.airport_code }}">
+                            {{ ap.airport_code }} - {{ ap.city }}, {{ ap.country }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <br>
+
+            <label>
+                Departure time:
+                <input type="datetime-local" name="departure_time" required>
+            </label>
+            <br>
+
+            <label>
+                Arrival airport:
+                <select name="arrival_airport" required>
+                    {% for ap in airports %}
+                        <option value="{{ ap.airport_code }}">
+                            {{ ap.airport_code }} - {{ ap.city }}, {{ ap.country }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <br>
+
+            <label>
+                Arrival time:
+                <input type="datetime-local" name="arrival_time" required>
+            </label>
+            <br>
+
+            <label>
+                Base price:
+                <input type="number" name="base_price" step="0.01" min="0" required>
+            </label>
+            <br><br>
+
+            <input type="submit" value="Create flight">
+        </form>
+    {% endif %}
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

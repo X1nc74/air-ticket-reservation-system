@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Agent Home</title>
+</head>
+<body>
+    <h1>Booking Agent Home</h1>
+    <p>Welcome, {{ email }} (Agent ID: {{ agent_id }})</p>
+
+    <h3>Available actions:</h3>
+    <ul>
+        <li><a href="/agent/search_flights">Search flights for customers</a></li>
+        <li><a href="/agent/commissions">View my commissions</a></li>
+        <li><a href="/agent/top_customers">View my top customers</a></li>
+    </ul>
+    
+
+    <p><form method="POST" action="{{ url_for('logout') }}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Logout</button></form></p>
+</body>
+</html>

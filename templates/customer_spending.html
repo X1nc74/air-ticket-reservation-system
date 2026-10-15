@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Spending</title>
+    <style>
+        .summary-box {
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+        }
+        .chart-row {
+            margin: 4px 0;
+        }
+        .chart-label {
+            display: inline-block;
+            width: 80px;
+        }
+        .chart-bar-wrapper {
+            display: inline-block;
+            width: 320px;
+            background-color: #f5f5f5;
+        }
+        .chart-bar {
+            height: 16px;
+            background-color: #4caf50;
+        }
+        .chart-value {
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+            margin-left: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Spending</h1>
+
+    <p>Customer: {{ email }}</p>
+
+    <div class="summary-box">
+        <h3>Summary</h3>
+        <p>
+            Total spending (all time): <strong>{{ total_all or 0 }}</strong><br>
+            Spending in last 12 months: <strong>{{ total_1year or 0 }}</strong><br>
+            Spending in last 30 days: <strong>{{ total_30days or 0 }}</strong>
+        </p>
+    </div>
+
+    <div class="summary-box">
+        <h3>Custom spending (by date range)</h3>
+
+        {% if custom_error %}
+            <p style="color:red;">{{ custom_error }}</p>
+        {% endif %}
+
+        <form method="GET" action="/customer/spending">
+            Start date:
+            <input type="date" name="start_date" value="{{ start_date }}">
+            &nbsp; End date:
+            <input type="date" name="end_date" value="{{ end_date }}">
+            &nbsp;
+            <input type="submit" value="Apply">
+            <a href="/customer/spending">Clear</a>
+        </form>
+
+        {% if custom_total is not none %}
+            <p>Total spending in range:
+                <strong>{{ custom_total }}</strong>
+            </p>
+
+            {% if custom_months|length == 0 %}
+                <p>No purchases in this period.</p>
+            {% else %}
+                {% for m in custom_months %}
+                    <div class="chart-row">
+                        <span class="chart-label">{{ m.month }}</span>
+                        <span class="chart-bar-wrapper">
+                            <span class="chart-bar" style="width: {{ m.bar_width }}px;"></span>
+                        </span>
+                        <span class="chart-value">{{ m.total }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="summary-box">
+        <h3>Spending by month (last 6 months)</h3>
+
+        {% if months|length == 0 %}
+            <p>You have no purchases in the last 6 months.</p>
+        {% else %}
+            {% for m in months %}
+                <div class="chart-row">
+                    <span class="chart-label">{{ m.month }}</span>
+                    <span class="chart-bar-wrapper">
+                        <span class="chart-bar" style="width: {{ m.bar_width }}px;"></span>
+                    </span>
+                    <span class="chart-value">{{ m.total }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <h3>Detailed purchases</h3>
+    {% if purchases|length == 0 %}
+        <p>You have no purchases.</p>
+    {% else %}
+        <table>
+            <tr>
+                <th>Purchase date</th>
+                <th>Airline</th>
+                <th>Flight #</th>
+                <th>Class</th>
+                <th>Sold price</th>
+                <th>Purchased via</th>
+            </tr>
+            {% for p in purchases %}
+            <tr>
+                <td>{{ p.purchase_date }}</td>
+                <td>{{ p.airline_name }}</td>
+                <td>{{ p.flight_num }}</td>
+                <td>{{ p.class_code }}</td>
+                <td>{{ p.sold_price }}</td>
+                <td>
+                    {% if p.agent_email %}
+                        Agent ({{ p.agent_email }})
+                    {% else %}
+                        Direct
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <p><a href="/customer/home">Back to customer home</a></p>
+</body>
+</html>

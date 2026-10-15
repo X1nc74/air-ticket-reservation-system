@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Airport</title>
+</head>
+<body>
+    <h1>Create a New Airport</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    <form method="POST" action="/staff/create_airport">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>
+            Airport code (3 letters, e.g. PVG, JFK):
+            <input type="text" name="airport_code" maxlength="3" required>
+        </label>
+        <br>
+
+        <label>
+            Name:
+            <input type="text" name="name" required>
+        </label>
+        <br>
+
+        <label>
+            City:
+            <input type="text" name="city" required>
+        </label>
+        <br>
+
+        <label>
+            Country:
+            <input type="text" name="country" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Create airport">
+    </form>
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

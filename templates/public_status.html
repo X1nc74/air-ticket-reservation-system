@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Flight Status Lookup</title>
+</head>
+<body>
+    <h1>Flight Status Lookup</h1>
+
+    <p>
+        Enter an <strong>airline name</strong> and <strong>flight number</strong>
+        to see the status of that flight.
+    </p>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="/status">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>
+            Airline name (exact, e.g. "CSCI Air"):
+            <input type="text" name="airline_name" required>
+        </label>
+        <br>
+
+        <label>
+            Flight number (e.g. "CA001"):
+            <input type="text" name="flight_num" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Lookup">
+    </form>
+
+    {% if flights is defined %}
+        <h2>Matching flights</h2>
+        {% if flights|length == 0 %}
+            <p>No flights found for this airline and flight number.</p>
+        {% else %}
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>Flight ID</th>
+                    <th>Airline</th>
+                    <th>Flight #</th>
+                    <th>Departure airport</th>
+                    <th>Departure time</th>
+                    <th>Arrival airport</th>
+                    <th>Arrival time</th>
+                    <th>Status</th>
+                </tr>
+                {% for f in flights %}
+                <tr>
+                    <td>{{ f.flight_id }}</td>
+                    <td>{{ f.airline_name }}</td>
+                    <td>{{ f.flight_num }}</td>
+                    <td>{{ f.departure_airport }}</td>
+                    <td>{{ f.departure_time }}</td>
+                    <td>{{ f.arrival_airport }}</td>
+                    <td>{{ f.arrival_time }}</td>
+                    <td>{{ f.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+
+    <p><a href="/">Back to home</a></p>
+</body>
+</html>

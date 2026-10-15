@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Flights</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Flights on {{ airline_name }}</h1>
+
+    <p>
+        Staff: {{ username }} (permission: {{ permission_type }})
+    </p>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <h3>Lookup customer by email</h3>
+    <form method="POST" action="/staff/customer_flights">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>
+            Customer email:
+            <input type="email" name="customer_email" value="{{ customer_email }}" required>
+        </label>
+        <br><br>
+        <input type="submit" value="Search flights">
+    </form>
+
+    {% if customer_name %}
+        <h3>Customer information</h3>
+        <p>
+            Name: {{ customer_name }}<br>
+            Email: {{ customer_email }}
+        </p>
+
+        <h3>Flights on {{ airline_name }}</h3>
+        {% if flights|length == 0 %}
+            <p>This customer has no flights on this airline.</p>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Flight ID</th>
+                    <th>Flight #</th>
+                    <th>Departure</th>
+                    <th>Departure time</th>
+                    <th>Arrival</th>
+                    <th>Arrival time</th>
+                    <th>Status</th>
+                    <th>Class</th>
+                    <th>Sold price</th>
+                    <th>Purchased via</th>
+                    <th>Purchase date</th>
+                </tr>
+                {% for f in flights %}
+                <tr>
+                    <td>{{ f.flight_id }}</td>
+                    <td>{{ f.flight_num }}</td>
+                    <td>{{ f.departure_airport }}</td>
+                    <td>{{ f.departure_time }}</td>
+                    <td>{{ f.arrival_airport }}</td>
+                    <td>{{ f.arrival_time }}</td>
+                    <td>{{ f.status }}</td>
+                    <td>{{ f.class_code }}</td>
+                    <td>{{ f.sold_price }}</td>
+                    <td>
+                        {% if f.agent_email %}
+                            Agent ({{ f.agent_email }})
+                        {% else %}
+                            Direct
+                        {% endif %}
+                    </td>
+                    <td>{{ f.purchase_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

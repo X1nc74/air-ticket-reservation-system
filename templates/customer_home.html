@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Home</title>
+</head>
+<body>
+    <h1>Customer Home</h1>
+    <p>Welcome, {{ name }}!</p>
+
+    <h3>Available actions:</h3>
+    <ul>
+        <li><a href="/customer/search_flights">Search for upcoming flights</a></li>
+        <li><a href="/customer/my_flights">View my upcoming and past flights</a></li>
+        <li><a href="/customer/spending">View "My Spending" summary and charts</a></li>
+    </ul>
+
+    <form method="POST" action="{{ url_for('logout') }}" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Logout</button></form>
+</body>
+</html>

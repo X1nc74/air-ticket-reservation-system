@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Flights</title>
+</head>
+<body>
+    <h1>My Flights</h1>
+
+    <p>Customer: {{ email }}</p>
+
+    <h3>Filter my flights</h3>
+    <form method="GET" action="/customer/my_flights">
+        <label>
+            Start date:
+            <input type="date" name="start_date" value="{{ start_date }}">
+        </label>
+        <br>
+
+        <label>
+            End date:
+            <input type="date" name="end_date" value="{{ end_date }}">
+        </label>
+        <br>
+
+        <label>
+            Departure airport (3-letter code):
+            <input type="text" name="departure_airport" maxlength="3"
+                   value="{{ departure_airport }}">
+        </label>
+        <br>
+
+        <label>
+            Arrival airport (3-letter code):
+            <input type="text" name="arrival_airport" maxlength="3"
+                   value="{{ arrival_airport }}">
+        </label>
+        <br><br>
+
+        <input type="submit" value="Apply filters">
+        <a href="/customer/my_flights">Clear filters</a>
+    </form>
+
+    <hr>
+
+    <h2>Upcoming flights</h2>
+    {% if upcoming_flights|length == 0 %}
+        <p>You have no upcoming flights.</p>
+    {% else %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Airline</th>
+                <th>Flight #</th>
+                <th>Class</th>
+                <th>Departure airport</th>
+                <th>Departure time</th>
+                <th>Arrival airport</th>
+                <th>Arrival time</th>
+                <th>Status</th>
+                <th>Sold price</th>
+                <th>Purchased at</th>
+            </tr>
+            {% for f in upcoming_flights %}
+            <tr>
+                <td>{{ f.airline_name }}</td>
+                <td>{{ f.flight_num }}</td>
+                <td>{{ f.class_code }}</td>
+                <td>{{ f.departure_airport }}</td>
+                <td>{{ f.departure_time }}</td>
+                <td>{{ f.arrival_airport }}</td>
+                <td>{{ f.arrival_time }}</td>
+                <td>{{ f.status }}</td>
+                <td>{{ f.sold_price }}</td>
+                <td>{{ f.purchase_date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <h2>Past flights</h2>
+    {% if past_flights|length == 0 %}
+        <p>You have no past flights.</p>
+    {% else %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Airline</th>
+                <th>Flight #</th>
+                <th>Class</th>
+                <th>Departure airport</th>
+                <th>Departure time</th>
+                <th>Arrival airport</th>
+                <th>Arrival time</th>
+                <th>Status</th>
+                <th>Sold price</th>
+                <th>Purchased at</th>
+            </tr>
+            {% for f in past_flights %}
+            <tr>
+                <td>{{ f.airline_name }}</td>
+                <td>{{ f.flight_num }}</td>
+                <td>{{ f.class_code }}</td>
+                <td>{{ f.departure_airport }}</td>
+                <td>{{ f.departure_time }}</td>
+                <td>{{ f.arrival_airport }}</td>
+                <td>{{ f.arrival_time }}</td>
+                <td>{{ f.status }}</td>
+                <td>{{ f.sold_price }}</td>
+                <td>{{ f.purchase_date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <p><a href="/customer/home">Back to customer home</a></p>
+</body>
+</html>

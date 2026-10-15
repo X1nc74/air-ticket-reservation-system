@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Airplane</title>
+</head>
+<body>
+    <h1>Create a New Airplane</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    <p>Airline: <strong>{{ airline_name }}</strong></p>
+
+    <form method="POST" action="/staff/create_airplane">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>
+            Model:
+            <input type="text" name="model" required>
+        </label>
+        <br>
+
+        <label>
+            Total seats:
+            <input type="number" name="total_seats" min="1" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Create airplane">
+    </form>
+
+    <p><a href="/staff/home">Back to staff home</a></p>
+</body>
+</html>

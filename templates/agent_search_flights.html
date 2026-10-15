@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Agent Search Flights</title>
+</head>
+<body>
+    <h1>Search Flights for Customers</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="/agent/search_flights">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>
+            Departure airport code (e.g. JFK):
+            <input type="text" name="departure_airport" maxlength="3" required>
+        </label>
+        <br>
+
+        <label>
+            Arrival airport code (e.g. LAX):
+            <input type="text" name="arrival_airport" maxlength="3" required>
+        </label>
+        <br>
+
+        <label>
+            Departure date:
+            <input type="date" name="departure_date" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Search">
+    </form>
+
+    {% if flights is defined %}
+        <h2>Search Results</h2>
+        {% if flights|length == 0 %}
+            <p>No matching flights found.</p>
+        {% else %}
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>Flight ID</th>
+                    <th>Airline</th>
+                    <th>Flight #</th>
+                    <th>Departure</th>
+                    <th>Departure time</th>
+                    <th>Arrival</th>
+                    <th>Arrival time</th>
+                    <th>Base price</th>
+                    <th>Action</th>
+                </tr>
+                {% for f in flights %}
+                <tr>
+                    <td>{{ f.flight_id }}</td>
+                    <td>{{ f.airline_name }}</td>
+                    <td>{{ f.flight_num }}</td>
+                    <td>{{ f.departure_airport }}</td>
+                    <td>{{ f.departure_time }}</td>
+                    <td>{{ f.arrival_airport }}</td>
+                    <td>{{ f.arrival_time }}</td>
+                    <td>{{ f.base_price }}</td>
+                    <td>
+                        <a href="/agent/purchase/{{ f.flight_id }}">Purchase for customer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+
+    <p><a href="/agent/home">Back to agent home</a></p>
+</body>
+</html>
