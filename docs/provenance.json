@@ -1,0 +1,122 @@
+{
+  "source_zip_sha256": "7d34289ee6f4fb7af223909a343591c0375bdbd4ad36f084b8134122692c9f54",
+  "original_files": {
+    "tables.sql": {
+      "sha256": "0c9902f979311f1e52a78cae5e1339e77be573aef532ec93b90b5ddf38ec8f37",
+      "bytes": 3339
+    },
+    "Project3_Narrative.txt": {
+      "sha256": "4864eabd77aedb17853491d673cd32e87e58386a9cac8d4b6c3268b2ec2d6ebf",
+      "bytes": 13499
+    },
+    "app.py": {
+      "sha256": "f6a5b9741a4f489185a6819ce57bd508598315890355cc13aea66b0393d35a50",
+      "bytes": 78622
+    },
+    "Readme.txt": {
+      "sha256": "e0229509724041c29beab7b5a1c297f482434ccd2a9676a3c319c4f6189e0217",
+      "bytes": 6926
+    },
+    "static/airline_system.sql": {
+      "sha256": "feed09cfe238254a33dca47d67473892ea3270e9ef42af1aa4d7e4eaf7a11754",
+      "bytes": 17255
+    },
+    "templates/staff_create_airport.html": {
+      "sha256": "65cddb4198520723ce6d5c8e24e08fa4a781805ffc4dca3a635b1d549baa4d83",
+      "bytes": 1046
+    },
+    "templates/agent_commissions.html": {
+      "sha256": "a2e9865d1242d6c0707b2f65f68f616847568e5949bb751c4882959cbcaa4d16",
+      "bytes": 4463
+    },
+    "templates/staff_create_flight.html": {
+      "sha256": "549ab92e53df96f5ca8749fdb0e1ad22562800da90f62ab4b1512b4133a31403",
+      "bytes": 2954
+    },
+    "templates/agent_search_flights.html": {
+      "sha256": "f6b674c99b27a46d2b33bd290f7743730027789984a60d345793be55304e73fd",
+      "bytes": 2235
+    },
+    "templates/agent_purchase.html": {
+      "sha256": "db5c32575f404d9e0719b5d3b9285d4b63544c34c7abad9776d74dbf53be81d6",
+      "bytes": 2245
+    },
+    "templates/customer_search_flights.html": {
+      "sha256": "1def1a70b59524ffd66cf197e4b065c0bcc368d78513ff7a426f6ffc2c0fe3c8",
+      "bytes": 2214
+    },
+    "templates/index.html": {
+      "sha256": "37fd0ab9ebbd0216e1712d08d5b8308e03146785e6d5cd3beb830608201c1b7d",
+      "bytes": 499
+    },
+    "templates/customer_home.html": {
+      "sha256": "ad9ce638f56f32a7e93735287e034dfb8281c5f9c616768aea5645f9ed1f3491",
+      "bytes": 524
+    },
+    "templates/staff_analytics.html": {
+      "sha256": "40e2a696b1eb46baf6976902b5e62e5f7f0a4cdb7d248dc27c89f3a95d1bcf72",
+      "bytes": 10462
+    },
+    "templates/customer_spending.html": {
+      "sha256": "eec04888fe1e72dcc0aa0829d7da21c80124df437221e5ad2a56d8b6d4090b23",
+      "bytes": 4503
+    },
+    "templates/register.html": {
+      "sha256": "decc6074d13d5f345f8c21ec4ea6ea814c9885911de27242128a30aeb3526fe6",
+      "bytes": 1331
+    },
+    "templates/agent_home.html": {
+      "sha256": "e28c1f7ccf1b47c77458c3623c296c41a2fd16923f1a28de3015b1fec6612153",
+      "bytes": 533
+    },
+    "templates/login.html": {
+      "sha256": "7e5f36759286774e52c6bcad07e49bc447a7ce4c9a8ea2148667e37c21d0e956",
+      "bytes": 592
+    },
+    "templates/public_status.html": {
+      "sha256": "a72b634b1170d947b142dc96155ac4b888f03f2840ce4ae431c1c3a0fa51375c",
+      "bytes": 2019
+    },
+    "templates/customer_purchase.html": {
+      "sha256": "5033410792fcab6524800bfb87dbeb6d009911bc31babafd287aa329ac50aeab",
+      "bytes": 2253
+    },
+    "templates/staff_assign_agent.html": {
+      "sha256": "818245b5bb4a044554ae7e2a028a1444d63f08be73d5069da352f11c7d963e17",
+      "bytes": 2217
+    },
+    "templates/customer_my_flights.html": {
+      "sha256": "282e681aa9d0f400b4a8bfb3cb84eb5b8ff58c430c90d68574e63f4ad7bf5193",
+      "bytes": 3502
+    },
+    "templates/staff_customer_flights.html": {
+      "sha256": "7dc11187dc0199780789884527c7efb4bf052c853ef2b84820d684270be82ef9",
+      "bytes": 2711
+    },
+    "templates/public_search.html": {
+      "sha256": "aa7bab8d35367886cc7e0dcf845d2345f229981cac0d0605c6d300c3128f3f06",
+      "bytes": 2138
+    },
+    "templates/agent_top_customers.html": {
+      "sha256": "14075e159e0f0eff4e25acfb2e4c6959cc958586694f554b92ec6ac13e2809b9",
+      "bytes": 2393
+    },
+    "templates/staff_home.html": {
+      "sha256": "5d47d00a1f2d54d09e1933eb3a627c4de06a4c0933c441e517afc0364b46896d",
+      "bytes": 1106
+    },
+    "templates/staff_create_airplane.html": {
+      "sha256": "08d61d0aa8733065beef882dbecf539d2d8ac91259a6b625a3d1d5eac41f46df",
+      "bytes": 834
+    },
+    "templates/staff_passengers.html": {
+      "sha256": "4eb47f526a6fc86013990c9dccc085b3cac978a21f451671274b6c2ada7d3f2d",
+      "bytes": 3289
+    },
+    "templates/staff_flights.html": {
+      "sha256": "92b7b08181abee3b947f50c08a86bba57d0c19121add9df4aa957d3dd20ff689",
+      "bytes": 3961
+    }
+  },
+  "curation": "Virtual environment and bytecode excluded; raw database rows omitted; complete schema retained; configuration, authorization, CSRF and booking transactions revised."
+}
