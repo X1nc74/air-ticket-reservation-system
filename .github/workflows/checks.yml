@@ -1,0 +1,41 @@
+name: Application and MySQL checks
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci_root_only_password
+          MYSQL_DATABASE: airline_system
+          MYSQL_USER: airline_app
+          MYSQL_PASSWORD: ci_database_only_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: '3306'
+      DB_NAME: airline_system
+      DB_USER: airline_app
+      DB_PASSWORD: ci_database_only_password
+      SECRET_KEY: ci_session_key_for_disposable_tests_only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -p test_application.py -v
+      - run: python scripts/init_demo.py
+      - run: python -m unittest discover -s tests -p test_database.py -v
+        env:
+          RUN_DB_TESTS: '1'
